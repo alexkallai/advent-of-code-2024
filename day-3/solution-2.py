@@ -20,7 +20,7 @@ sum = 0
 enabled: bool = True
 for find in matches:
     string_find = find.group()
-    print(string_find)
+    #print(string_find)
     if "don" in string_find:
         enabled = False
     elif "do()" in string_find:
@@ -28,7 +28,7 @@ for find in matches:
     elif enabled:
         stripped = string_find.strip()[4:-1]
         first, second = [int(i) for i in stripped.split(",")]
-        print(first, " - ", second)
+        #print(first, " - ", second)
         sum += first * second
 
 print("Solution:", sum)
