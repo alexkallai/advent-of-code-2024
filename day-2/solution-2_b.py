@@ -12,16 +12,28 @@ for index, line in enumerate(file_lines_list):
     file_lines_list[index] = [int(a) for a in file_lines_list[index].strip().split(" ")]
 # FILE READ IN
 
-is_decreasing = True
-is_increasing = True
-
 sum = 0
-for line in file_lines_list:
+
+def is_safe(line):
     decr_list = [(i[0] > i[1] and abs(i[0]-i[1]) <= 3) for i in pairwise(line)]
-    decr_any = all(decr_list)
+    decr_all = all(decr_list)
     incr_list = [(i[0] < i[1] and abs(i[0]-i[1]) <= 3) for i in pairwise(line)]
-    incr_any = all(incr_list)
-    if decr_any != incr_any:
+    incr_all = all(incr_list)
+    return decr_all or incr_all
+
+for line in file_lines_list:
+    line_length = len(line)
+    can_be_dampened_array = []
+    for number_idx in range(line_length):
+        working_copy: list = list(line)
+        working_copy.pop(number_idx)
+        if is_safe(working_copy):
+            can_be_dampened_array.append(True)
+    if any(can_be_dampened_array):
+        print("Can be dampened")
+        sum += 1
+        continue
+    if is_safe(line):
         print("Safe")
         sum += 1
     else:
