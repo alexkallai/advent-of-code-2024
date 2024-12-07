@@ -22,7 +22,10 @@ def add(a, b):
 def mult(a, b):
     return a*b
 
-operations = [add, mult]
+def concat(a, b):
+    return int(str(a)+str(b))
+
+operations = [add, mult, concat]
 
 for line in equations:
     numbers = line[1]
@@ -42,4 +45,4 @@ for line in equations:
         else:
             pass
             #print("Incorrect:", result)
-print("Total part 1:", total_res)
+print("Total part 2:", total_res)
