@@ -47,22 +47,6 @@ decomp_list = decompress(input)
 print("".join(decomp_list))
 work_list = decomp_list
 
-def organized(work_list):
-    numbers_ended = False
-    for char in work_list:
-        if not char.isalnum():
-            numbers_ended = True
-        if numbers_ended:
-            if char != ".":
-                return False
-    return True
-
-def get_last_non_alphanumeric_index(s):
-    for i in range(len(s) - 1, -1, -1):
-        if not s[i].isalnum():
-            return i
-    return -1
-
 def get_last_alphanumeric_index(s):
     for i in range(len(s) - 1, -1, -1):
         if s[i].isalnum():
@@ -70,22 +54,33 @@ def get_last_alphanumeric_index(s):
     return -1
 
 length = len(work_list)
-for i in range(len(s) - 1, -1, -1):
-#while not organized(work_list):
-    #text = "".join(work_list)
-    #first_dot_location = text.index(".")
-    #last_alpha = get_last_alphanumeric_index(text)
-
-    #if first_dot_location < last_alpha:
-        #work_list[first_dot_location] = work_list[last_alpha]
-        #work_list[last_alpha] = "."
-
+lowest_index = length
+for i in range(length - 1, -1, -1):
+    text = "".join(work_list)
+    last_file_end_index = get_last_alphanumeric_index(text[0:lowest_index])
+    last_file_id = work_list[last_file_end_index].index
+    last_file_start_index = last_file_end_index
+    for i in range(last_file_end_index-1):
+        if work_list[last_file_end_index-1-i].index == last_file_id:
+            last_file_start_index -= 1
+            lowest_index = last_file_start_index
+        else:
+            break
+    last_file_length = last_file_end_index - last_file_start_index + 1
+    try:
+        search_string = "."*last_file_length
+        first_dot_location = text.index(search_string)
+        if first_dot_location > last_file_start_index:
+            continue
+    except:
+        continue
+    work_list[first_dot_location:first_dot_location+last_file_length] = work_list[last_file_start_index:last_file_start_index+last_file_length]
+    work_list[last_file_start_index:last_file_start_index+last_file_length] = list(search_string)
 
 checksum = 0
 for i, char in enumerate(work_list):
     if char.isalnum():
         no = int(char.index)
         checksum += i * no
-    pass
-pass
+
 print(checksum)
